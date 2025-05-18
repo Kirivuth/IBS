@@ -1,2 +1,2 @@
 ng s o
-ng b --output-path docs --base-href /bran_name/
+ng b --output-path docs --base-href /production/
