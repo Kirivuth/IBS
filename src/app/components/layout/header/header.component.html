@@ -1,0 +1,60 @@
+<header class="header">
+  <div class="header-left">
+    <img src="assets/images/logo.png" alt="Logo" class="logo" />
+  </div>
+  <div class="header-right">
+    <div class="header-right-left">
+      <button class="mat-menu-item-test">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <div class="header-right-right">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+      >
+        <mat-icon>notifications</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>dialpad</mat-icon>
+          <span>Redial</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Check voice mail</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>notifications_off</mat-icon>
+          <span>Disable alerts</span>
+        </button>
+      </mat-menu>
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+      >
+        <mat-icon>warning</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>dialpad</mat-icon>
+          <span>Redial</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>notifications_off</mat-icon>
+          <span>Disable alerts</span>
+        </button>
+      </mat-menu>
+      <div class="profile-info">
+        <div class="profile-image">
+          <img src="assets/images/avata.jpg" alt="Profile" />
+        </div>
+        <a (click)="signOut()"
+          ><span class="profile-name">Kirivuth Tin</span></a
+        >
+      </div>
+    </div>
+  </div>
+</header>

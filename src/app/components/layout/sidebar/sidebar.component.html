@@ -1,0 +1,28 @@
+<aside class="sidebar">
+  <ul>
+    <ng-container *ngFor="let menuItem of menuItems">
+      <li *ngIf="!menuItem.children" (click)="addTab(menuItem)">
+        <a [routerLink]="menuItem.route" routerLinkActive="active-link">
+          <i class="fas fa-tachometer-alt"></i> {{ menuItem.label }}
+        </a>
+      </li>
+      <li
+        *ngIf="menuItem.children"
+        class="submenu"
+        [class.open]="openMenus[menuItem.id]"
+      >
+        <a (click)="toggleMenu(menuItem.id)">
+          <i class="fas fa-tools"></i> {{ menuItem.label }}
+          <i class="fa-solid fa-angle-down"></i>
+        </a>
+        <ul class="sub-menu">
+          <li *ngFor="let child of menuItem.children" (click)="addTab(child)">
+            <a [routerLink]="child.route" routerLinkActive="active-link">
+              <i class="fa-regular fa-user"></i> {{ child.label }}
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ng-container>
+  </ul>
+</aside>

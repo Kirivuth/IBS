@@ -1,0 +1,79 @@
+/* Tab Wrapper */
+.tabs-container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  align-items: center;
+  border-bottom: 0px solid #dee2e6;
+  padding: 8px 10px 0px 10px;
+  position: relative;
+  background-color: #ffffff;
+  box-shadow: 2px 0 4px #00000080;
+  scrollbar-width: none;
+}
+/* Tab Item */
+.tab-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 7px 10px 7px 30px;
+  margin-right: 4px;
+  background-color: #fff;
+  color: #495057;
+  border: 1px solid #e4ecee;
+  border-bottom: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  min-width: 130px;
+  user-select: none;
+  font-size: 14px;
+}
+.tab-item:hover {
+  background-color: #f2fafd;
+  border-color: #b9d2f3;
+  -webkit-transition: background-color 300ms linear;
+  -ms-transition: background-color 300ms linear;
+  transition: background-color 300ms linear;
+  color: #18191a;
+}
+.tab-item.active {
+  color: #ffffff;
+  border-top: 2px solid #697dff;
+  background-color: #e2f5fb;
+  color: #000;
+  padding: 6px 10px 9px 30px;
+  margin-top: -3px;
+}
+.tab-item.active .close-button {
+  display: block;
+  top: 15px;
+}
+.tab-item.active .fa-solid {
+  top: 7px;
+}
+.tab-item:hover .close-button {
+  display: block;
+}
+.tab-label {
+  margin-right: 0.5rem;
+}
+.fa-solid {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+}
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #000000;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  font-size: 22px;
+  line-height: 0;
+  display: none;
+}

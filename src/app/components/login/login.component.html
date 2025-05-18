@@ -1,0 +1,27 @@
+<div>
+  <form [formGroup]="loginForm">
+    <div>
+      <label class="form-label">Username</label>
+      <input
+        class="form-control"
+        type="text"
+        formControlName="username"
+        placeholder="Enter your username"
+        autocomplete="off"
+      />
+    </div>
+    <div>
+      <label class="form-label">Password</label>
+      <input
+        class="form-control"
+        type="password"
+        formControlName="password"
+        placeholder="Enter your password"
+        autocomplete="off"
+      />
+    </div>
+    <div>
+      <button class="btn btn-lg btn-primary" (click)="signIn()">Sign in</button>
+    </div>
+  </form>
+</div>
