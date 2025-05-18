@@ -1,20 +1,38 @@
-<div class="tabs-container" #tabsContainer>
-  <div
-    class="tab-item"
-    *ngFor="let tab of tabs; trackBy: trackByTabId"
-    (click)="onTabClick(tab.id)"
-    [ngClass]="{ active: activeTabId === tab.id }"
-    #tabElement
-  >
-    <i class="fa-solid fa-earth-americas"></i>
-    <span class="tab-label">{{ tab.label }}</span>
-    <button
-      class="close-button"
-      (click)="onCloseTab(tab.id); $event.stopPropagation()"
+<div class="tab-wrapper">
+  <div class="tabs-container" #tabsContainer>
+    <div
+      class="tab-item"
+      *ngFor="let tab of tabs; trackBy: trackByTabId"
+      (click)="onTabClick(tab.id)"
+      [ngClass]="{ active: activeTabId === tab.id }"
+      #tabElement
     >
-      &times;
-    </button>
+      <i class="fa-solid fa-earth-americas"></i>
+      <span class="tab-label">{{ tab.label }}</span>
+      <button
+        class="close-button"
+        (click)="onCloseTab(tab.id); $event.stopPropagation()"
+      >
+        &times;
+      </button>
+    </div>
+  </div>
+  <div class="more-tab-item">
+    <span>More</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="size-6"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5"
+      />
+    </svg>
   </div>
 </div>
-
 <div class="tab-content-container" #tabContentContainer></div>

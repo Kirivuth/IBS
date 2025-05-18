@@ -57,3 +57,18 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+
+Deploy angular with Githup
+
+
+ng build --configuration production --base-href /IBS/
+
+Move files from docs/browser → docs (as explained earlier)
+
+git add docs
+git commit -m "Deploy Angular app to GitHub Pages"
+git push origin main
+
+
