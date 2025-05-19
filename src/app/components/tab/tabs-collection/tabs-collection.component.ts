@@ -12,6 +12,8 @@ import {
   ChangeDetectorRef,
   QueryList,
   ViewChildren,
+  HostListener,
+  AfterViewInit,
 } from '@angular/core';
 import { TabService, TabItem } from '../../../services/tab/tab.service'; // Import from the service file
 import { Subscription, Subject, fromEvent, takeUntil } from 'rxjs';
@@ -38,13 +40,15 @@ export class TabsCollectionComponent implements OnInit, OnDestroy {
   activeTabIdSubscription!: Subscription;
   @ViewChild('tabContentContainer', { read: ViewContainerRef })
   tabContentContainer!: ViewContainerRef;
+  windowWidth!: number; //detect window size // Manage more button
+
   private componentRefs: ComponentRef<any>[] = [];
 
-  @ViewChild('tabsContainer') tabsContainer!: ElementRef;
-  @ViewChild('overflowMenuTrigger') overflowMenuTrigger:
-    | MatMenuTrigger
-    | undefined;
-  public showOverflow = false;
+  // @ViewChild('tabsContainer') tabsContainer!: ElementRef;
+  // @ViewChild('overflowMenuTrigger') overflowMenuTrigger:
+  //   | MatMenuTrigger
+  //   | undefined;
+  //public showOverflow = false; //detect window size
   private destroy$ = new Subject<void>();
 
   @ViewChildren('tabElement') tabElements!: QueryList<ElementRef>;
@@ -56,7 +60,27 @@ export class TabsCollectionComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    // Manage more button
+    // Get initial width on component initialization (handle SSR separately)
+    this.windowWidth = window.innerWidth;
+  }
+
+  // Manage more button
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(event: Event): void {
+    this.windowWidth = (event.target as Window).innerWidth;
+    this.changeDetectorRef.detectChanges(); // Manually trigger change detection
+  }
+
+  // Manage more button
+  shouldShowOverflowMenu(): boolean {
+    const tabWidth = 175; // pixels
+    const totalTabWidth = this.tabs?.length * tabWidth;
+    const windowWidth = this.windowWidth - 280;
+    console.log('Should show overflow menu:', totalTabWidth > windowWidth);
+    return totalTabWidth > windowWidth;
+  }
 
   ngOnInit(): void {
     this.tabServiceSubscription = this.tabService.tabs.subscribe((tabs) => {
