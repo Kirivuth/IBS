@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router'; // Added NavigationEnd
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { TabService } from './services/tab/tab.service';
@@ -8,6 +8,7 @@ import { LoginComponent } from './components/login/login.component';
 import { HeaderComponent } from './components/layout/header/header.component';
 import { SidebarComponent } from './components/layout/sidebar/sidebar.component';
 import { TabsCollectionComponent } from './components/tab/tabs-collection/tabs-collection.component';
+// Import all your content components for the switch statement
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PosComponent } from './components/pos/pos.component';
 import { UserComponent } from './components/user/user.component';
@@ -40,15 +41,15 @@ export class AppComponent implements OnInit, OnDestroy {
   isLogin = false;
   menuItems: any[] = [];
   routerSubscription!: Subscription;
-  menuServiceSubscription!: Subscription; // To unsubscribe from MenuService
+  menuServiceSubscription!: Subscription;
   @ViewChild(TabsCollectionComponent)
-  tabsCollectionComponent?: TabsCollectionComponent; // Make it optional with ?
+  tabsCollectionComponent?: TabsCollectionComponent;
 
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
     private _tabService: TabService,
-    private _menuService: MenuService // Inject MenuService
+    private _menuService: MenuService
   ) {}
 
   ngOnInit(): void {
@@ -57,11 +58,17 @@ export class AppComponent implements OnInit, OnDestroy {
       .getMenuItems()
       .subscribe((items) => {
         this.menuItems = items;
-        this.initializeTabsForRoutes();
+        // Moved initial tab creation logic to TabsCollectionComponent
+        // This is good because TabsCollectionComponent knows how to react to URL changes directly.
       });
 
+    // You can keep this subscription if you need to react to router events here
+    // but it's not strictly necessary for the tab/menu sync with the new approach.
     this.routerSubscription = this._router.events.subscribe((event) => {
-      // Listen for route changes if needed,  Good practice to have it, even if empty
+        // Example: If you need to update `isLogin` based on route changes (e.g., to login page)
+        if (event instanceof NavigationEnd) {
+            // Check if current route is login route, etc.
+        }
     });
   }
 
@@ -70,12 +77,19 @@ export class AppComponent implements OnInit, OnDestroy {
       this.routerSubscription.unsubscribe();
     }
     if (this.menuServiceSubscription) {
-      this.menuServiceSubscription.unsubscribe(); // Unsubscribe here
+      this.menuServiceSubscription.unsubscribe();
     }
   }
 
   switchView(isSignedIn: boolean) {
     this.isLogin = isSignedIn;
+    // Optionally, if login state changes, you might want to re-evaluate tabs.
+    // For example, if logging out should clear all tabs.
+    if (!isSignedIn) {
+        this._tabService.setTabs([]); // Clear all tabs on logout
+        this._tabService.setActiveTab(null);
+        this._router.navigate(['/']); // Go to login/home
+    }
   }
 
   addTab(menuItem: any): void {
@@ -84,6 +98,7 @@ export class AppComponent implements OnInit, OnDestroy {
     let contentComponent: any;
     let route = menuItem.route;
 
+    // Ensure contentComponent is correctly assigned based on menuItem.id
     switch (menuItem.id) {
       case 'dashboard':
         contentComponent = DashboardComponent;
@@ -115,44 +130,36 @@ export class AppComponent implements OnInit, OnDestroy {
       case 'summaryReport':
         contentComponent = RptsummaryeComponent;
         break;
-
       case 'incomeReport':
         contentComponent = RptincomeComponent;
         break;
-
       case 'suppliers':
         contentComponent = SupplierComponent;
         break;
-
       case 'inventory':
         contentComponent = InventoryComponent;
         break;
-
       case 'settings':
         contentComponent = SettingComponent;
         break;
       default:
-        return;
+        console.warn(`No content component defined for menu item ID: ${menuItem.id}`);
+        return; // Exit if no component is mapped
     }
 
-    this._tabService.addTab({
-      id: tabId,
-      label: tabLabel,
-      contentComponent: contentComponent,
-      route: route,
-    });
-    this._tabService.setActiveTab(tabId); // Add this line to switch to the new tab.
+    this._tabService.addTab(
+      {
+        id: tabId,
+        label: tabLabel,
+        contentComponent: contentComponent, // Pass the actual component reference
+        route: route,
+      },
+      false // isFirst should likely be false here, as it's typically user-driven addition
+    );
+    // setActiveTab is implicitly handled by addTab now, as it sets the added tab as active
+    // this._tabService.setActiveTab(tabId);
   }
 
-  private initializeTabsForRoutes(): void {
-    const currentRoute = this._route.snapshot.firstChild?.routeConfig?.path;
-    if (currentRoute) {
-      const initialMenuItem = this.menuItems.find(
-        (item) => item.route === currentRoute
-      );
-      if (initialMenuItem) {
-        this.addTab(initialMenuItem);
-      }
-    }
-  }
+  // initializeTabsForRoutes is now handled within TabsCollectionComponent's ngOnInit
+  // private initializeTabsForRoutes(): void { /* ... */ }
 }

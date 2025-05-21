@@ -2,10 +2,11 @@
 .tab-wrapper {
   display: flex;
   justify-content: space-between;
-  background-color: #ffffff;
+  background-color: #ffff;
   box-shadow: 2px 0 4px #00000080;
   flex-wrap: nowrap;
   overflow-x: auto;
+  padding-right: 50px;
 }
 .tabs-container {
   width: 100%;

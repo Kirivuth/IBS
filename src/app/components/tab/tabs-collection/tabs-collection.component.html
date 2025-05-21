@@ -1,4 +1,4 @@
-<div class="tab-wrapper">
+<!-- <div class="tab-wrapper">
   <ng-container *ngIf="shouldShowOverflowMenu()">
     <div class="more-tab-item">
       <span>More</span>
@@ -26,6 +26,122 @@
       (click)="onTabClick(tab.id)"
       [ngClass]="{ active: activeTabId === tab.id }"
       #tabElement
+    >
+      <i class="fa-solid fa-earth-americas"></i>
+      <span class="tab-label">{{ tab.label }}</span>
+      <button
+        class="close-button"
+        (click)="onCloseTab(tab.id); $event.stopPropagation()"
+      >
+        &times;
+      </button>
+    </div>
+  </div>
+</div>
+<div class="tab-content-container" #tabContentContainer></div> -->
+
+<!-- <div class="tab-wrapper">
+  <ng-container *ngIf="shouldShowOverflowMenu()">
+    <div
+      class="more-tab-item"
+      [matMenuTriggerFor]="overflowMenu"
+      #moreButton="matMenuTrigger"
+    >
+      <span>More</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5"
+        />
+      </svg>
+    </div>
+
+    <mat-menu #overflowMenu="matMenu">
+      <button
+        mat-menu-item
+        *ngFor="let tab of overflowTabs"
+        (click)="onOverflowTabClick(tab)"
+      >
+        <mat-icon><i class="fa-solid fa-earth-americas"></i></mat-icon>
+        <span>{{ tab.label }}</span>
+      </button>
+    </mat-menu>
+  </ng-container>
+
+  <div class="tabs-container" #tabsContainer>
+    <div
+      class="tab-item"
+      *ngFor="let tab of visibleTabs; trackBy: trackByTabId"
+      (click)="onTabClick(tab.id)"
+      [ngClass]="{ active: activeTabId === tab.id }"
+      #tabElement
+    >
+      <i class="fa-solid fa-earth-americas"></i>
+      <span class="tab-label">{{ tab.label }}</span>
+      <button
+        class="close-button"
+        (click)="onCloseTab(tab.id); $event.stopPropagation()"
+      >
+        &times;
+      </button>
+    </div>
+  </div>
+</div>
+<div class="tab-content-container" #tabContentContainer></div> -->
+
+<div class="tab-wrapper">
+  <ng-container *ngIf="shouldShowOverflowMenu()">
+    <div
+      class="more-tab-item"
+      [matMenuTriggerFor]="overflowMenu"
+      #moreButtonTrigger="matMenuTrigger"
+      #moreButtonElement
+    >
+      <span>More</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5"
+        />
+      </svg>
+    </div>
+
+    <mat-menu #overflowMenu="matMenu">
+      <button
+        mat-menu-item
+        *ngFor="let tab of overflowTabs"
+        (click)="onOverflowTabClick(tab)"
+      >
+        <mat-icon><i class="fa-solid fa-earth-americas"></i></mat-icon>
+        <span>{{ tab.label }}</span>
+      </button>
+    </mat-menu>
+  </ng-container>
+
+  <div class="tabs-container" #tabsContainer>
+    <div
+      class="tab-item"
+      *ngFor="let tab of visibleTabs; trackBy: trackByTabId"
+      (click)="onTabClick(tab.id)"
+      [ngClass]="{ active: activeTabId === tab.id }"
+      #tabElement
+      [attr.data-tab-id]="tab.id"
     >
       <i class="fa-solid fa-earth-americas"></i>
       <span class="tab-label">{{ tab.label }}</span>
